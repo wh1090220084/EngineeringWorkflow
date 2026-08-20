@@ -1,0 +1,19 @@
+{
+  "name": "engineering-workflow",
+  "version": "0.1.0",
+  "description": "Risk-proportionate, evidence-driven workflow skill for software repositories.",
+  "author": {
+    "name": "Engineering Workflow maintainers"
+  },
+  "keywords": ["skills", "engineering", "testing", "debugging", "verification"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Engineering Workflow",
+    "shortDescription": "Evidence-driven software delivery workflow",
+    "longDescription": "A portable skill for planning, implementing, debugging, reviewing, validating, and operating on software repositories with risk-proportionate evidence and safety gates.",
+    "developerName": "Engineering Workflow maintainers",
+    "category": "Developer Tools",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": ["Use engineering-workflow to handle this repository task."]
+  }
+}

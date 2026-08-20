@@ -1,0 +1,10 @@
+{
+  "name": "engineering-workflow",
+  "description": "Risk-proportionate, evidence-driven workflow skill for software repositories.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Engineering Workflow maintainers"
+  },
+  "keywords": ["skills", "engineering", "testing", "debugging", "verification"],
+  "skills": "./skills/"
+}

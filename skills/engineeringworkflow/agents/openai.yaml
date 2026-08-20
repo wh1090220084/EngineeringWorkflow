@@ -1,0 +1,6 @@
+interface:
+  display_name: "Engineering Workflow"
+  short_description: "Risk-proportionate software delivery workflow"
+  default_prompt: "Use $engineering-workflow to choose the right delivery level and verify this repository task."
+policy:
+  allow_implicit_invocation: true
