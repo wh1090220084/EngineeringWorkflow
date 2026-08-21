@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Engineering Workflow package architecture</title>
+  <desc id="desc">Four platform adapters converge on one canonical engineering workflow skill.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f7fafc}.title{font:700 30px sans-serif;fill:#102a43}.label{font:600 18px sans-serif;fill:#102a43}.small{font:15px sans-serif;fill:#486581}.box{stroke:#2f80ed;stroke-width:2}.adapter{fill:#e8f1ff}.core{fill:#d9f7ef;stroke:#0f9d83}.ref{fill:#fff4d6;stroke:#d99b18}.line{stroke:#7b8794;stroke-width:3;fill:none}.arrow{fill:#7b8794}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path class="arrow" d="M0,0 L9,3 L0,6 Z"/></marker>
+  </defs>
+  <rect class="bg" width="1200" height="620" rx="24"/>
+  <text class="title" x="60" y="68">One Skill, four platform adapters</text>
+  <text class="small" x="60" y="98">Thin manifests discover the same behavior instead of copying it.</text>
+  <rect class="box adapter" x="70" y="155" width="230" height="78" rx="14"/><text class="label" x="185" y="188" text-anchor="middle">Codex</text><text class="small" x="185" y="214" text-anchor="middle">.codex-plugin</text>
+  <rect class="box adapter" x="70" y="270" width="230" height="78" rx="14"/><text class="label" x="185" y="303" text-anchor="middle">Claude Code</text><text class="small" x="185" y="329" text-anchor="middle">.claude-plugin</text>
+  <rect class="box adapter" x="70" y="385" width="230" height="78" rx="14"/><text class="label" x="185" y="418" text-anchor="middle">Gemini CLI</text><text class="small" x="185" y="444" text-anchor="middle">GEMINI.md import</text>
+  <rect class="box adapter" x="70" y="500" width="230" height="78" rx="14"/><text class="label" x="185" y="533" text-anchor="middle">Copilot CLI</text><text class="small" x="185" y="559" text-anchor="middle">local marketplace</text>
+  <path class="line" marker-end="url(#arrow)" d="M300 194 C390 194 400 290 500 290"/><path class="line" marker-end="url(#arrow)" d="M300 309 C390 309 400 310 500 310"/><path class="line" marker-end="url(#arrow)" d="M300 424 C390 424 400 330 500 330"/><path class="line" marker-end="url(#arrow)" d="M300 539 C390 539 400 350 500 350"/>
+  <rect class="core" x="500" y="220" width="390" height="210" rx="20"/><text class="label" x="695" y="270" text-anchor="middle">skills/engineeringworkflow/</text><text class="small" x="695" y="307" text-anchor="middle">SKILL.md</text><text class="small" x="695" y="335" text-anchor="middle">references/</text><text class="small" x="695" y="363" text-anchor="middle">agents/openai.yaml</text><text class="small" x="695" y="398" text-anchor="middle">single source of truth</text>
+  <path class="line" marker-end="url(#arrow)" d="M890 325 L1040 325"/><rect class="ref" x="1040" y="265" width="110" height="120" rx="16"/><text class="label" x="1095" y="305" text-anchor="middle">Shared</text><text class="small" x="1095" y="332" text-anchor="middle">rules</text><text class="small" x="1095" y="355" text-anchor="middle">evidence</text>
+</svg>

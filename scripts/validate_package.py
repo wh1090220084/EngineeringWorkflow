@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Validate the repository's portable skill package contract."""
 
 from __future__ import annotations
@@ -11,6 +11,15 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills" / "engineeringworkflow" / "SKILL.md"
 README = ROOT / "README.md"
+README_CN = ROOT / "README_CN.md"
+
+IMAGE_FILES = (
+    ROOT / "docs" / "images" / "architecture.svg",
+    ROOT / "docs" / "images" / "workflow.svg",
+    ROOT / "docs" / "images" / "risk-levels.svg",
+    ROOT / "docs" / "images" / "evidence-ladder.svg",
+    ROOT / "docs" / "images" / "platform-installation.svg",
+)
 
 REQUIRED_FILES = (
     ROOT / ".codex-plugin" / "plugin.json",
@@ -20,6 +29,8 @@ REQUIRED_FILES = (
     ROOT / "GEMINI.md",
     SKILL,
     README,
+    README_CN,
+    *IMAGE_FILES,
 )
 
 
@@ -89,9 +100,17 @@ def main() -> int:
         require("# Engineering Workflow" in skill_text, "Canonical SKILL.md must contain the Engineering Workflow heading")
 
         readme = README.read_text(encoding="utf-8")
+        readme_cn = README_CN.read_text(encoding="utf-8")
         for platform in ("Codex", "Claude Code", "Gemini CLI", "GitHub Copilot CLI"):
             require(platform in readme, f"README.md must document {platform}")
+            require(platform in readme_cn, f"README_CN.md must document {platform}")
         require("single source of truth" in readme, "README.md must state the canonical-source rule")
+        require("# Engineering Workflow" in readme, "README.md must contain the English title")
+        require("# Engineering Workflow（中文）" in readme_cn, "README_CN.md must contain the Chinese title")
+        for image_path in IMAGE_FILES:
+            image_link = image_path.relative_to(ROOT).as_posix()
+            require(image_link in readme, f"README.md must reference {image_link}")
+            require(image_link in readme_cn, f"README_CN.md must reference {image_link}")
     except (OSError, ValueError, json.JSONDecodeError) as error:
         print(f"Package validation failed: {error}", file=sys.stderr)
         return 1
@@ -102,3 +121,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Evidence ladder</title>
+  <desc id="desc">Verification strength increases from manual checks to targeted automated tests.</desc>
+  <defs><style>.bg{fill:#f7fafc}.title{font:700 30px sans-serif;fill:#102a43}.label{font:700 18px sans-serif;fill:#102a43}.p{font:15px sans-serif;fill:#486581}.r1{fill:#e5ecf4}.r2{fill:#d7e8f7}.r3{fill:#c9efe7}.r4{fill:#b4e6d8}.r5{fill:#8fd8c6}.axis{stroke:#7b8794;stroke-width:3}.arrow{fill:#7b8794}</style><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path class="arrow" d="M0,0 L9,3 L0,6 Z"/></marker></defs>
+  <rect class="bg" width="1200" height="560" rx="24"/><text class="title" x="58" y="62">Evidence ladder</text><text class="p" x="58" y="91">Use the strongest available evidence and disclose the remaining gap.</text>
+  <path class="axis" marker-end="url(#arrow)" d="M120 470 L120 145"/><path class="axis" marker-end="url(#arrow)" d="M120 470 L1065 470"/>
+  <rect class="r1" x="185" y="405" width="790" height="55" rx="10"/><text class="label" x="215" y="440">5. Manual check</text><text class="p" x="550" y="440">Exact steps and observed output</text>
+  <rect class="r2" x="265" y="335" width="710" height="55" rx="10"/><text class="label" x="295" y="370">4. Controlled inspection</text><text class="p" x="600" y="370">Inputs, artifacts, logs, schema</text>
+  <rect class="r3" x="345" y="265" width="630" height="55" rx="10"/><text class="label" x="375" y="300">3. Build or static check</text><text class="p" x="650" y="300">Types, lint, parser, build</text>
+  <rect class="r4" x="425" y="195" width="550" height="55" rx="10"/><text class="label" x="455" y="230">2. Focused reproduction</text><text class="p" x="680" y="230">Repeatable test or fixture</text>
+  <rect class="r5" x="505" y="125" width="470" height="55" rx="10"/><text class="label" x="535" y="160">1. Targeted automated test</text><text class="p" x="840" y="160">Strongest proof</text>
+  <text class="p" x="105" y="505" text-anchor="middle">lower</text><text class="p" x="1090" y="505" text-anchor="middle">stronger</text>
+</svg>

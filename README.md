@@ -1,145 +1,121 @@
-# Engineering Workflow
+﻿# Engineering Workflow
 
-Engineering Workflow 是一个面向软件仓库任务的通用工程 Skill。它将实现、调试、评审、验证、计划和外部操作按风险分级，要求用与风险相称的证据证明结论，而不是用未经验证的推断代替结果。
+[Chinese documentation](README_CN.md)
 
-该项目采用与成熟多平台 Skill 仓库相同的核心构造：一份规范化的 Skill 内容，多个只负责发现和加载的薄适配层。它支持 Codex、Claude Code、Gemini CLI 和 GitHub Copilot CLI。
+Engineering Workflow is a portable software-engineering Skill for repository work. It routes planning, implementation, debugging, review, validation, and external operations through risk-proportionate evidence and explicit safety boundaries.
 
-## 架构
+![Engineering Workflow architecture](docs/images/architecture.svg)
 
-`skills/engineeringworkflow/` 是行为定义的 **single source of truth**（唯一真源）：
+## Architecture
 
-- `SKILL.md` 定义任务分流、风险等级和工程约束。
-- `references/` 保存调试证据、严格工作流、安全信任、实验复现和压力场景等按需读取的细节。
-- `agents/openai.yaml` 是单个 Skill 的 Codex UI 元数据。
+`skills/engineeringworkflow/` is the **single source of truth** for behavior. `SKILL.md` contains shared routing rules, while `references/` contains detailed procedures loaded only when relevant. Platform files are thin discovery adapters and never copy the workflow text.
 
-根目录的适配文件不会复制或改写工作流文本：
+![Delivery workflow](docs/images/workflow.svg)
 
-| 平台 | 入口文件 | 加载方式 |
+The package supports Codex, Claude Code, Gemini CLI, and GitHub Copilot CLI through these entries:
+
+| Platform | Entry | Loading model |
 | --- | --- | --- |
-| Codex | `.codex-plugin/plugin.json` | Plugin manifest 公开 `./skills/`。 |
-| Claude Code | `.claude-plugin/plugin.json` | Plugin manifest 公开 `./skills/`。 |
-| Gemini CLI | `gemini-extension.json`、`GEMINI.md` | `GEMINI.md` 直接导入规范化的 `SKILL.md`。 |
-| GitHub Copilot CLI | `.agents/plugins/marketplace.json` | 本地 marketplace 暴露同一插件包。 |
+| Codex | `.codex-plugin/plugin.json` | Exposes `./skills/` to Codex. |
+| Claude Code | `.claude-plugin/plugin.json` | Exposes `./skills/` to Claude Code. |
+| Gemini CLI | `gemini-extension.json`, `GEMINI.md` | Imports the canonical `SKILL.md`. |
+| GitHub Copilot CLI | `.agents/plugins/marketplace.json` | Publishes a local marketplace entry. |
 
-这种分层意味着修改工程规则时只修改 `skills/engineeringworkflow/`；修改安装或展示元数据时只修改相应平台的 adapter。不要为某个平台复制 `SKILL.md`，否则不同平台的行为会逐渐漂移。
+## Risk-Proportionate Routing
 
-## 目录说明
+The Skill chooses the lightest workflow that can credibly protect the outcome. It escalates for shared interfaces, security, data, dependencies, irreversible actions, production changes, and external side effects.
 
-```text
-.
-|-- skills/engineeringworkflow/        # 规范化 Skill 内容
-|   |-- SKILL.md
-|   |-- references/
-|   `-- agents/openai.yaml
-|-- .codex-plugin/plugin.json          # Codex adapter
-|-- .claude-plugin/plugin.json         # Claude Code adapter
-|-- .agents/plugins/marketplace.json   # Copilot CLI marketplace adapter
-|-- gemini-extension.json              # Gemini CLI adapter
-|-- GEMINI.md                          # Gemini 对规范化 Skill 的导入
-|-- AGENTS.md                          # 本仓库维护者入口说明
-`-- scripts/validate_package.py        # 离线结构校验
-```
+![Risk levels](docs/images/risk-levels.svg)
 
-## 使用前提
+- **Quick**: small, local, reversible edits with known callers.
+- **Standard**: ordinary behavior changes, bugs, refactors, or multi-file work.
+- **Strict**: public, security-sensitive, data/model, dependency, production, or external work.
+- **Explore**: isolated spikes and unknown legacy behavior with an explicit learning goal.
 
-- 使用本地目录安装或加载插件时，将下文的 `<REPO_PATH>` 替换为本仓库的绝对路径。
-- 每个平台都有自己的插件或扩展安装位置；在 Codex 中安装不会让 Claude Code、Gemini CLI 或 Copilot CLI 自动获得该 Skill。
-- 安装完成后，先使用明确请求验证加载，例如：`Use engineering-workflow to review this repository task.`
+## Evidence Before Claims
 
-Skill 的 `description` 允许具备原生发现能力的平台自动选择它，但自动选择由实际平台版本、模型和当前配置决定。对于需要确定工作流的任务，优先显式请求 `engineering-workflow`，不要把自动选择当作安装成功的唯一证据。
+Completion claims require fresh evidence after the final edit. When the strongest check is unavailable, the Skill uses the best repeatable alternative and names the remaining uncertainty.
 
-## 安装与使用
+![Evidence ladder](docs/images/evidence-ladder.svg)
+
+The handoff records changed files, verification commands and outcomes, documentation updates, safety checks, exceptions, known limitations, and required follow-up.
+
+## Install and Use
+
+Use `<REPO_PATH>` below as the absolute path to this checkout. Each harness has its own installation mechanism; installing one platform does not install the Skill into the others.
 
 ### Codex
 
-1. 在 Codex 的 Plugins 界面或 CLI 的 `/plugins` 面板中添加本地 marketplace：`<REPO_PATH>\.agents\plugins`。
-2. 从名为 `engineering-workflow` 的 marketplace 安装 **Engineering Workflow** 插件。
-3. 确认插件或 Skill 列表中出现 `engineering-workflow`。
-4. 在仓库任务中显式写 `$engineering-workflow`，或请求“use engineering-workflow”。
+Add the local marketplace or plugin directory using the Codex Plugins UI or `/plugins` command, then install `engineering-workflow`. Verify that **Engineering Workflow** appears in the installed plugin or Skill list. For deterministic routing, invoke `$engineering-workflow` explicitly.
 
-Codex 由 `.codex-plugin/plugin.json` 发现 `./skills/`。如果安装的是开发中的本地副本，更新 manifest 或 Skill 后按当前 Codex 版本的插件管理界面重新加载或重新安装该本地插件。
+The package manifest is `.codex-plugin/plugin.json`, and it exposes `./skills/`. Local plugin UI and CLI details can vary by Codex version, so follow the commands shown by your installed version.
 
 ### Claude Code
 
-使用本地插件目录启动 Claude Code：
+Start a local plugin session with:
 
 ```bash
 claude --plugin-dir <REPO_PATH>
 ```
 
-在该会话中请求 Claude Code 使用 `engineering-workflow` 处理一个仓库任务，并确认它加载的是 `skills/engineeringworkflow/SKILL.md`。如果你的 Claude Code 版本提供插件管理界面，也可以通过该界面选择同一目录安装或启用插件。
-
-Claude Code 由 `.claude-plugin/plugin.json` 发现 `./skills/`。本地目录模式通常适合开发和验收；在新的会话中再次传入 `--plugin-dir`，或按本机插件管理器的方式持久安装。
+Ask Claude Code to use `engineering-workflow` and confirm it reads `skills/engineeringworkflow/SKILL.md`. The `.claude-plugin/plugin.json` manifest exposes the shared `./skills/` directory.
 
 ### Gemini CLI
 
-从本仓库的父目录安装本地扩展：
+Install the local extension from its parent directory:
 
 ```bash
 gemini extensions install ./EngineeringWorkflow
 ```
 
-如果检出目录名称不同，改为绝对路径：
+Use an absolute path if the checkout has another name:
 
 ```bash
 gemini extensions install <REPO_PATH>
 ```
 
-确认 Gemini CLI 的扩展列表出现 `engineering-workflow`，然后在仓库任务中明确请求工程工作流。`gemini-extension.json` 指定 `GEMINI.md`，后者只导入 `@./skills/engineeringworkflow/SKILL.md`，因此 Gemini 使用的仍是同一份规范内容。
-
-更新 Skill 后，根据当前 Gemini CLI 版本重新安装或更新该本地扩展，再开始一个新会话验证加载结果。
+`gemini-extension.json` selects `GEMINI.md`, which imports `@./skills/engineeringworkflow/SKILL.md`. Confirm the extension appears in Gemini's extension list, then run a smoke test in a repository.
 
 ### GitHub Copilot CLI
 
-将本仓库的 marketplace 目录注册到 Copilot CLI，然后安装它公开的插件：
+Register the repository-local marketplace and install its plugin:
 
 ```bash
 copilot plugin marketplace add <REPO_PATH>/.agents/plugins
 copilot plugin install engineering-workflow@engineering-workflow
 ```
 
-确认已安装插件列表出现 `engineering-workflow`，再用明确的仓库任务请求该 Skill。此 marketplace 文件采用仓库根目录的相对插件源；移动整个仓库后应重新注册新的绝对路径。
+If your Copilot CLI version uses an interactive plugin manager, add `<REPO_PATH>/.agents/plugins` there instead. Confirm the installed plugin list contains `engineering-workflow`.
 
-若已安装的 Copilot CLI 版本使用交互式插件管理器而非上述命令，请在该管理器中添加 `<REPO_PATH>/.agents/plugins` 并选择同名插件。不要改写 `marketplace.json` 为某个用户目录的绝对路径。
+![Platform installation paths](docs/images/platform-installation.svg)
 
-## 验证
+## Validate the Package
 
-### 离线包校验
-
-在仓库根目录运行：
+Run the offline package validator from the repository root:
 
 ```bash
 python scripts/validate_package.py
 ```
 
-该校验会验证：
+It checks manifest JSON, canonical Skill paths, Gemini's import, and README/image coverage. It does not start Codex, Claude Code, Gemini CLI, or Copilot CLI, so it cannot prove runtime loading or automatic Skill selection.
 
-- 所有 JSON manifest 可解析且包含所需标识字段；
-- Codex 与 Claude Code 指向相同的 `./skills/` 目录；
-- Copilot CLI marketplace 指向仓库根；
-- Gemini 只导入规范化的 Skill；
-- 规范 Skill 的名称和主标题仍存在；
-- README 仍覆盖四个平台和唯一真源原则。
-
-它不启动 Codex、Claude Code、Gemini CLI 或 GitHub Copilot CLI，因此不能证明这些平台中的真实安装、插件缓存或运行时自动选择。
-
-### 平台级冒烟验证
-
-在目标平台完成安装后，打开一个包含代码的仓库并发送类似请求：
+For a platform smoke test, install the package, open a repository, and ask:
 
 ```text
 Use engineering-workflow to classify this repository task, state the proving evidence, and do not edit files.
 ```
 
-检查代理是否读取 `skills/engineeringworkflow/SKILL.md`，并根据任务选择 Quick、Standard、Strict 或 Explore。此检查验证平台实际加载，不要求也不授权代理修改目标仓库。
+Confirm that the platform reads `skills/engineeringworkflow/SKILL.md` and selects an appropriate route.
 
-## 维护
+## Maintaining the Skill
 
-工作流行为的修改只应发生在 `skills/engineeringworkflow/SKILL.md` 或它链接的 `references/` 中。修改后：
+Change workflow behavior only in `skills/engineeringworkflow/SKILL.md` or its linked `references/` files. After a behavior change:
 
-1. 按 `SKILL.md` 的 `Validation` 部分阅读并应用匹配的只读压力场景：`skills/engineeringworkflow/references/pressure-scenarios.md`。
-2. 若主 Skill 的规则改变了详细步骤，同步更新对应参考文件。
-3. 运行 `python scripts/validate_package.py`，确认所有 adapter 仍指向唯一真源。
-4. 对需要支持的平台重新加载本地插件或扩展，并进行一次平台级冒烟验证。
+1. Read the matching scenario in `skills/engineeringworkflow/references/pressure-scenarios.md`.
+2. Update the relevant reference when a detailed procedure changes.
+3. Run `python scripts/validate_package.py`.
+4. Reload affected local plugins and run platform smoke tests that are actually available.
 
-本仓库当前只提供本地包元数据。远程 marketplace 发布、公开仓库地址、版本发布、签名和许可证选择均需要仓库所有者另行授权。
+The repository contains local package metadata only. Remote marketplace publication, release signing, version promotion, and license selection require separate owner approval.
+
+
