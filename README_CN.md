@@ -91,6 +91,8 @@ copilot plugin install engineering-workflow@engineering-workflow
 
 ## 验证包结构
 
+请参阅[验证方法](docs/validation.md)了解验收阈值、安全的真实模型运行命令和限制。[最新验证结果](docs/validation-results.md)会明确区分离线检查与真实平台证据。
+
 在仓库根目录运行离线校验器：
 
 ```bash

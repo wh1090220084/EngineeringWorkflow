@@ -91,6 +91,8 @@ If your Copilot CLI version uses an interactive plugin manager, add `<REPO_PATH>
 
 ## Validate the Package
 
+See [validation methodology](docs/validation.md) for thresholds, safe live-run commands, and limitations. The [latest validation results](docs/validation-results.md) separate offline checks from live provider evidence.
+
 Run the offline package validator from the repository root:
 
 ```bash

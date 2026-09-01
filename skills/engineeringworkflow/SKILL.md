@@ -28,11 +28,31 @@ Choose one level before editing. If uncertain, start Standard; escalate only whe
 
 Use Quick only when every condition in its row holds: no plan, full baseline, or two-stage review is required. Escalate if shared behavior, unknown blast radius, failed focused verification, or a safety, compatibility, data, model, or external-operation concern appears. Never downgrade merely for urgency, sunk cost, or “only one line.”
 
+Two routing boundaries are deliberate: a read-only review that must corroborate a documented business fact against implementation or configuration is Standard, and a read-only review of an unavailable benchmark is Standard unless it changes a consequential model/data result or triggers a production/external action. A value crossing an untrusted public API boundary remains Strict even when a native UI control is sufficient.
+
+## Complexity Checkpoint
+
+After routing the work and understanding the change path, check the smallest sufficient option before choosing an implementation:
+
+1. Is the change unnecessary, or can existing code be deleted?
+2. Can an existing helper, utility, type, or pattern in the repository be reused?
+3. Does the standard library provide it?
+4. Does a native platform or database capability provide it?
+5. Does an already-installed dependency provide it?
+6. Only then add new code or a new dependency.
+
+Stop at the first option that satisfies the request, compatibility and edge-case requirements, readability, risk gates, and proving method. A shorter diff is not sufficient evidence. Do not add speculative abstractions, configuration, or extension points unless the current requirement or a real public contract needs them.
+
+## Commenting and Documentation
+
+When creating or changing an executable script, route the work through Standard even when it is a single new file or the flow appears obvious: the script header, CLI contract, and any reusable/business-rule callable are maintainability boundaries. Put a module docstring or language-standard file-header comment before imports (after any required shebang or encoding declaration), and make that placement explicit in the plan or next actions. Describe the processing flow/data path, inputs, outputs, key parameters, side effects, runtime prerequisites, and a useful example when needed. Public methods, complex methods, and methods that encode project business rules need documentation covering their responsibility and, as applicable, parameters, return values, exceptions, side effects, and key constraints. An explicit request to skip required documentation does not waive this contract; preserve the user's functional scope while adding the minimum accurate documentation. Simple obvious helpers may omit repetitive prose, but non-obvious constraints and external dependencies still need explanation. Explain why, invariants, and important trade-offs rather than narrating code, and say how the final review will avoid line-by-line restatement. Update documentation whenever behavior, parameters, return values, exceptions, side effects, or design choices change; if the change has no affected external documentation, record that determination. Read [commenting guidance](references/commenting.md) for the review checklist and language-specific header conventions.
+
 ## Non-Negotiable Gates
 
 - Before deletion, overwrite, bulk change, dependency install, download, upload, credential handling, permission change, production action, commit/push, or project-external write: confirm target, authority, impact, rollback, and verification. Read [safety and trust](references/safety-and-trust.md).
 - For a bug, failure, or unexpected result: investigate before changing code. Read [evidence and debugging](references/evidence-and-debugging.md).
 - For data, training, evaluation, or inference: record reproducibility evidence. Read [experiments](references/experiments.md).
+- Do not simplify away trust-boundary validation, error handling that prevents data loss, security or privacy controls, accessibility basics, required observability, or calibration/tolerance for real-world inputs.
 - Before claiming complete, fixed, passing, safe, or ready: run fresh evidence for that exact claim; report skipped checks and residual risk. Read [evidence and debugging](references/evidence-and-debugging.md).
 
 ## When Infrastructure Is Missing
@@ -43,7 +63,7 @@ Pause only when a missing fact blocks a material decision or the next action is 
 
 ## Finish Honestly
 
-Keep scope tight. Update documentation or records when behavior, configuration, interface, operation, experiment, or user workflow changes. Final handoff states changed files, evidence, records, safety/external actions, exceptions, remaining risk, and required follow-up.
+Keep scope tight. Update documentation or records when behavior, configuration, interface, operation, experiment, or user workflow changes. When a deliberate simplification accepts a known ceiling, record the assumption, ceiling, observable trigger or metric, and upgrade path; use a code comment only when that context belongs beside the implementation. Final handoff states changed files, evidence, records, safety/external actions, exceptions, remaining risk, and required follow-up.
 
 ## Validation
 

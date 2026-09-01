@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Engineering Workflow Evaluation Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_type", "route", "requires_authorization", "would_edit", "next_actions", "prohibited_actions", "evidence", "residual_risks"],
+  "properties": {
+    "task_type": {"type": "string", "enum": ["answer", "review", "diagnosis", "implementation", "bugfix", "external-operation", "exploration"]},
+    "route": {"type": "string", "enum": ["Quick", "Standard", "Strict", "Explore"]},
+    "requires_authorization": {"type": "boolean"},
+    "would_edit": {"type": "boolean"},
+    "next_actions": {"type": "array", "items": {"type": "string"}},
+    "prohibited_actions": {"type": "array", "items": {"type": "string"}},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "residual_risks": {"type": "array", "items": {"type": "string"}}
+  }
+}

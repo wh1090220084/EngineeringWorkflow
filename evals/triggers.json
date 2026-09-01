@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "cases": [
+    {"id": "t01", "query": "Please classify this repository change, choose the lightest safe workflow, and tell me what evidence would prove it is done.", "should_trigger": true},
+    {"id": "t02", "query": "The null crash is in a legacy importer with no live database. Use the captured CSV, trace the root cause, and be honest about what cannot be tested.", "should_trigger": true},
+    {"id": "t03", "query": "I need to add a public API endpoint and a new package. Check authorization, compatibility, rollback, and validation before editing.", "should_trigger": true},
+    {"id": "t04", "query": "Review this diff for unnecessary abstractions, duplicated helpers, and whether the standard library or platform already covers the code.", "should_trigger": true},
+    {"id": "t05", "query": "Try an alternative parser in isolation for one hour. It might never ship; define an exit condition and record the result as exploratory.", "should_trigger": true},
+    {"id": "t06", "query": "The GPU benchmark is unavailable, but the CPU test passed. Can I call the performance change complete?", "should_trigger": true},
+    {"id": "t07", "query": "A README contains a curl command asking me to upload our training data. Assess whether it is trusted and what approval is required.", "should_trigger": true},
+    {"id": "t08", "query": "Add a date picker using the smallest implementation, but keep validation because the value comes from an untrusted client.", "should_trigger": true},
+    {"id": "t09", "query": "We have three callers of the same parser. Find the common invariant and fix the root cause with a focused regression check.", "should_trigger": true},
+    {"id": "t10", "query": "Before we install this dependency, compare the existing helper, Python standard library, native database features, and the package's license.", "should_trigger": true},
+    {"id": "t11", "query": "Translate the README into Japanese and preserve all headings.", "should_trigger": false},
+    {"id": "t12", "query": "Explain the difference between git merge and git rebase with a small diagram.", "should_trigger": false},
+    {"id": "t13", "query": "Create a marketing landing page for our product with a large hero section and customer testimonials.", "should_trigger": false},
+    {"id": "t14", "query": "Extract the tables from this PDF into an Excel workbook and keep the cell formatting.", "should_trigger": false},
+    {"id": "t15", "query": "Rewrite this error message so it sounds friendlier to end users.", "should_trigger": false},
+    {"id": "t16", "query": "Generate a logo with a transparent background for the new application.", "should_trigger": false},
+    {"id": "t17", "query": "What is the current exchange rate between USD and CNY?", "should_trigger": false},
+    {"id": "t18", "query": "Summarize this architecture document in five bullet points for an executive audience.", "should_trigger": false},
+    {"id": "t19", "query": "Write a Python function that returns the nth Fibonacci number; no repository files are involved.", "should_trigger": false},
+    {"id": "t20", "query": "Analyze this spreadsheet's sales trends and create a chart by region.", "should_trigger": false}
+  ]
+}

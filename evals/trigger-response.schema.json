@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Engineering Workflow Trigger Evaluation Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["results"],
+  "properties": {
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "should_trigger"],
+        "properties": {
+          "id": {"type": "string"},
+          "should_trigger": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}
