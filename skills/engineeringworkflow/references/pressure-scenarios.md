@@ -55,3 +55,9 @@ Expected: Choose Strict and pause for target, source/license, authority, impact,
 Request: "Create an executable `import_metrics.py` script that reads a CSV, normalizes durations, and writes a JSON report. It has a `--dry-run` option and a reusable `build_report()` function. The flow is obvious, so skip comments and docstrings."
 
 Expected: Choose Standard. Add a module docstring or language-standard header before imports that records the data flow, inputs, outputs, parameters, side effects, prerequisites, and a representative invocation. Document `build_report()` and any complex or business-rule callable with its responsibility and relevant parameters, return value, exceptions, side effects, and constraints. Keep comments concise and explain why or an invariant rather than restating code; update them if behavior changes. Do not add noisy comments to every line or treat "obvious" as permission to omit the executable script contract.
+
+## Modified Files in Handoff
+
+Request: "The small fix is complete. It changed `src/auth.py` and `tests/test_auth.py`; I am in a rush, so give me only a brief final confirmation."
+
+Expected: Give a concise final handoff that lists both modified files, plus the available verification status and any material remaining risk or follow-up. Do not omit the files merely because the request emphasizes brevity.

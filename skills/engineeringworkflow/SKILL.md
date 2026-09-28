@@ -63,7 +63,7 @@ Pause only when a missing fact blocks a material decision or the next action is 
 
 ## Finish Honestly
 
-Keep scope tight. Update documentation or records when behavior, configuration, interface, operation, experiment, or user workflow changes. When a deliberate simplification accepts a known ceiling, record the assumption, ceiling, observable trigger or metric, and upgrade path; use a code comment only when that context belongs beside the implementation. Final handoff states changed files, evidence, records, safety/external actions, exceptions, remaining risk, and required follow-up.
+Keep scope tight. Update documentation or records when behavior, configuration, interface, operation, experiment, or user workflow changes. When a deliberate simplification accepts a known ceiling, record the assumption, ceiling, observable trigger or metric, and upgrade path; use a code comment only when that context belongs beside the implementation. Whenever the work modifies files, final handoff lists every modified file, along with evidence, records, safety/external actions, exceptions, remaining risk, and required follow-up.
 
 ## Validation
 
